@@ -1,6 +1,7 @@
+const UllistaFilmow = document.querySelector("#listaFilmow");
 window.addEventListener("load", FileFilmow)
 function FileFilmow() {
-    let lista = document.querySelectorAll("li");
+    let lista = UllistaFilmow.querySelectorAll("li");
     let liczbaFilmow = lista.length;
     let SpanLiczbaFilmow = document.querySelector("#spanLiczbaFilmow")
     SpanLiczbaFilmow.innerHTML += liczbaFilmow
@@ -9,11 +10,13 @@ function FileFilmow() {
 
 const Btagi = document.querySelector("#generujTagi");
 const listaTagowHTML = document.querySelector("#listaTagow");
+const listaParent = document.querySelector("#listaFilmow");
+const selectRok = document.querySelector(".wybierzRok")
+
 
 Btagi.addEventListener("click", chmuraTagow);
 
 function chmuraTagow() {
-    let listaParent = document.querySelector("#listaFilmow")
     let lista = listaParent.querySelectorAll("li");
     let chmuraSlow = ""
     let chmuraTagow
@@ -34,11 +37,17 @@ function chmuraTagow() {
             let nowyLi = document.createElement("li");
             itemp = chmuraTagow[i];
             nowyLi.innerHTML = itemp;
-            nowyLi.dataset.on = parseInt(1);
+            nowyLi.dataset.on = ""
             nowyLi.addEventListener("click", FunkcjaLink.bind(null, itemp));
-            console.log(chmuraTagow[i])
+            if (itemp.includes("(", 0) == true){
+                let nowySelect = document.createElement("option");
+                nowySelect.innerText = itemp;
+                selectRok.addEventListener("blur", FunkcjaLink.bind(null, itemp));
+                selectRok.appendChild(nowySelect);
+            }
+            //console.log(chmuraTagow[i])
             iteracja += 1
-            console.log(iteracja)
+            //console.log(iteracja)
             for (let i = iteracja; i <= chmuraTagow.length - 2; i++) {
                 if (itemp == chmuraTagow[i]) {
                     nowyLi.dataset.on += parseInt(1);
@@ -49,6 +58,15 @@ function chmuraTagow() {
                 }
             }
             listaTagowHTML.appendChild(nowyLi);
+            if (nowyLi.dataset.on.length >= 5){
+                nowyLi.className = "razy5";
+            }
+            else if (nowyLi.dataset.on.length < 5 && nowyLi.dataset.on.length >= 2) {
+                nowyLi.className = "razy2";
+            }
+            else {
+                nowyLi.className = "raz";
+            }
         }
         else {
             continue;
@@ -56,5 +74,27 @@ function chmuraTagow() {
     }
 }
 function FunkcjaLink(temp) {
-    console.log(temp)
+    let lista = listaParent.querySelectorAll("li");
+    let stringWiersz;
+    console.log(lista);
+    for (let i = 0; i <= lista.length - 1; i++) {
+        stringWiersz = lista[i].innerText.toLocaleLowerCase();
+        console.log(stringWiersz);
+        console.log(temp);
+        if (stringWiersz.includes(temp) == true){
+             continue;
+         }
+         else {
+             lista[i].style.display = "none";
+         }
+    }
+}
+let buttonPokazWszystkie = document.querySelector("#pokazWszystkie");
+buttonPokazWszystkie.onclick = FpokazWszystkie
+
+function FpokazWszystkie() {
+    let lista = listaParent.querySelectorAll("li");
+    for (let i = 0; i <= lista.length - 1; i++) {
+        lista[i].style.display = "inherit";
+    }
 }
