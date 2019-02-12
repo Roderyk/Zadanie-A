@@ -1,5 +1,14 @@
+.pierwsza {
+   background-color: transparent;
+}
 .druga {
    background-color: aqua; 
+}
+.trzecia {
+   background-color: blueviolet;
+}
+.czwarta {
+   background-color: chartreuse;
 }
 .razy5 {
    font-size: 20px;
@@ -9,4 +18,10 @@
 }
 .raz {
    font-size: 8px;
+}
+.stylListy1 {
+   color: red;
+}
+.stylListy2 {
+   background-color: greenyellow;
 }
