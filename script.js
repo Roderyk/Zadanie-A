@@ -4,7 +4,7 @@ function FileFilmow() {
     let lista = UllistaFilmow.querySelectorAll("li");
     let liczbaFilmow = lista.length;
     let SpanLiczbaFilmow = document.querySelector("#spanLiczbaFilmow")
-    SpanLiczbaFilmow.innerHTML += liczbaFilmow
+    SpanLiczbaFilmow.innerHTML = liczbaFilmow
 }
 
 const Btagi = document.querySelector("#generujTagi");
@@ -23,7 +23,7 @@ function chmuraTagow() {
     let itemp
     let iteracja = 0
     let listaObecnychTagow = listaTagowHTML.querySelectorAll("li")
-    for (let i = 0; i < listaObecnychTagow.length; i++){
+    for (let i = 0; i < listaObecnychTagow.length; i++) {
         listaTagowHTML.removeChild(listaObecnychTagow[i]);
     }
     for (let i = 0; i <= lista.length - 1; i++) {
@@ -78,7 +78,7 @@ function chmuraTagow() {
 function FunkcjaLink(temp) {
     let lista = listaParent.querySelectorAll("li");
     let stringWiersz;
-    console.log(temp)
+    //console.log(temp)
     //console.log(lista);
     for (let i = 0; i <= lista.length - 1; i++) {
         lista[i].style.display = "list-item";
@@ -128,7 +128,7 @@ function FzmienStyl() {
         buttonStyl.className = "stylListy2";
         for (let i = 0; i <= lista.length - 1; i++) {
             if (lista[i].className == "pierwsza")
-            lista[i].className = "trzecia";
+                lista[i].className = "trzecia";
             else {
                 lista[i].className = "czwarta";
             }
@@ -139,7 +139,7 @@ function FzmienStyl() {
         buttonStyl.className = "stylListy1";
         for (let i = 0; i <= lista.length - 1; i++) {
             if (lista[i].className == "trzecia")
-            lista[i].className = "pierwsza";
+                lista[i].className = "pierwsza";
             else {
                 lista[i].className = "druga";
             }
@@ -155,18 +155,33 @@ let BdodajFilm = document.querySelector("#dodajFilm");
 BdodajFilm.onclick = FdodajFilm
 
 function FdodajFilm() {
-    let nowyFilmLi = document.createElement("li");
-    let tekstDoWstawienia = tytulFilmu.value + " (" + rokFilmu.value + ")";
-    nowyFilmLi.innerText = tekstDoWstawienia;
-    let robocza = listaParent.lastChild
-    console.log(robocza)
-    // if (listaParent.lastChild.className == "pierwsza") {
-    //     nowyFilmLi.className = "druga";
-    // }
-    // else if (listaParent.lastChild.className == "druga") {
-    //     nowyFilmLi.className = "pierwsza";
-    // }
-    //listaParent.appendChild(nowyFilmLi);
-    tytulFilmu.value = null;
-    rokFilmu.value = null;
+    if (tytulFilmu.value == "" || rokFilmu.value == "") { 
+        confirm("Proszę wpisać tytuł filmu i rok jego powstania.")
+    }
+    else {
+        let nowyFilmLi = document.createElement("li");
+        let tekstDoWstawienia = tytulFilmu.value + " (" + rokFilmu.value + ")";
+        nowyFilmLi.innerText = tekstDoWstawienia;
+        let listaParent2 = document.querySelector("#listaFilmow");
+        let lista = listaParent.querySelectorAll("li");
+        let listaL = lista.length;
+        let odniesienie = lista[listaL - 1].className;
+        //console.log(lista[listaL - 1]);
+        //console.log(odniesienie);
+        if (odniesienie == "pierwsza") {
+            nowyFilmLi.className = "druga";
+        }
+        else if (odniesienie == "druga") {
+            nowyFilmLi.className = "pierwsza";
+        }
+        else if (odniesienie == "trzecia") {
+            nowyFilmLi.className = "czwarta";
+        }
+        else { nowyFilmLi.className = "trzecia" }
+        listaParent2.appendChild(nowyFilmLi);
+        confirm("Film: " +tytulFilmu.value + " " + rokFilmu.value + " został dodany do listy.")
+        tytulFilmu.value = null;
+        rokFilmu.value = null;
+        FileFilmow()
+    }
 }
